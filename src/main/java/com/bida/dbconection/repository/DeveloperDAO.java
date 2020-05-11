@@ -3,12 +3,10 @@ package com.bida.dbconection.repository;
 import com.bida.dbconection.domain.Developer;
 import com.bida.dbconection.domain.ProgramingLanguage;
 import com.bida.dbconection.domain.SkillsLevel;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
@@ -39,75 +37,119 @@ public class DeveloperDAO extends GenericDAO {
 
     private static final String selectAllDeveloper = "select * from developers";
 
-    public void save(Developer developer){
-        EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(developer);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public void save(Developer developer) {
+        try {
+            EntityManager entityManager = getEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.persist(developer);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with save Developer!");
+        }
     }
 
-    public void update(Developer developer, Long id){
-        EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction().begin();
-        Developer developerFromDB = entityManager.find(Developer.class, id);
-        entityManager.merge(developer);
-        entityManager.persist(developerFromDB);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public void update(Developer developer, Long id) {
+        try {
+            EntityManager entityManager = getEntityManager();
+            entityManager.getTransaction().begin();
+            Developer developerFromDB = entityManager.find(Developer.class, id);
+            entityManager.merge(developer);
+            entityManager.persist(developerFromDB);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with update Developer!");
+        }
     }
 
     public void delete(Long id){
+        try {
         EntityManager entityManager = getEntityManager();
         entityManager.getTransaction().begin();
         Developer developerFromDB = entityManager.find(Developer.class, id);
         entityManager.remove(developerFromDB);
         entityManager.getTransaction().commit();
         entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with delete Developer!");
+        }
     }
 
     public List<Developer> selectAllDevelopers(){
+        List<Developer> developers = null;
+        try {
         EntityManager entityManager = getEntityManager();
-        List<Developer> developers = (List<Developer>) entityManager.createNativeQuery(selectAllDeveloper, Developer.class)
+        developers = (List<Developer>) entityManager.createNativeQuery(selectAllDeveloper, Developer.class)
                 .getResultList();
         entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all developers Developer!");
+        }
         return developers;
     }
 
     public List<Developer> findAllDevelopersByProgramingLanguage(ProgramingLanguage programingLanguage) {
-        EntityManager entityManager = getEntityManager();
-        List<Developer> developers = (List<Developer>) entityManager.createNativeQuery(selectAllDevelopersByLanguageSkills, Developer.class)
-                .setParameter("programingLanguage", programingLanguage.getName())
-                .getResultList();
-        entityManager.close();
+        List<Developer> developers = null;
+        try {
+            EntityManager entityManager = getEntityManager();
+            developers = (List<Developer>) entityManager.createNativeQuery(selectAllDevelopersByLanguageSkills, Developer.class)
+                    .setParameter("programingLanguage", programingLanguage.getName())
+                    .getResultList();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all developers by programing language Developer!");
+        }
         return developers;
     }
 
     public List<Developer> findAllDevelopersBySkillsLevel(SkillsLevel skillsLevel) {
-        EntityManager entityManager = getEntityManager();
-        List<Developer> developers = (List<Developer>) entityManager.createNativeQuery(selectAllDevelopersByLevelSkills, Developer.class)
-                .setParameter("skillsLevel", skillsLevel.getName())
-                .getResultList();
-        entityManager.close();
+        List<Developer> developers = null;
+        try {
+            EntityManager entityManager = getEntityManager();
+            developers = (List<Developer>) entityManager.createNativeQuery(selectAllDevelopersByLevelSkills, Developer.class)
+                    .setParameter("skillsLevel", skillsLevel.getName())
+                    .getResultList();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all developers by skills level Developer!");
+        }
         return developers;
     }
 
     public List<Developer> findAllDevelopersByProjectId(long projectId) {
-        EntityManager entityManager = getEntityManager();
-        List<Developer> developers = (List<Developer>) entityManager.createNativeQuery(selectDevelopersByProject, Developer.class)
-                .setParameter("id", projectId)
-                .getResultList();
-        entityManager.close();
+        List<Developer> developers = null;
+        try {
+            EntityManager entityManager = getEntityManager();
+            developers = (List<Developer>) entityManager.createNativeQuery(selectDevelopersByProject, Developer.class)
+                    .setParameter("id", projectId)
+                    .getResultList();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all developers by project id Developer!");
+        }
         return developers;
     }
 
-    public BigDecimal findDevelopersSalaryByIdProject(long projectId){
-        EntityManager entityManager = getEntityManager();
-        BigInteger salarySum = (BigInteger) entityManager.createNativeQuery(selectDevelopersSalaryByIdProject)
-                .setParameter("id", projectId)
-                .getSingleResult();
-        entityManager.close();
+    public BigDecimal findDevelopersSalaryByIdProject(long projectId) {
+        BigInteger salarySum = null;
+        try {
+            EntityManager entityManager = getEntityManager();
+            salarySum = (BigInteger) entityManager.createNativeQuery(selectDevelopersSalaryByIdProject)
+                    .setParameter("id", projectId)
+                    .getSingleResult();
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all salary of developers by project id Developer!");
+        }
         return new BigDecimal(salarySum);
     }
-
 }
