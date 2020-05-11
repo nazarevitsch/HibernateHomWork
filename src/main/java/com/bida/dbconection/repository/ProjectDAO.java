@@ -10,9 +10,9 @@ import java.util.List;
 
 public class ProjectDAO extends GenericDAO{
 
-    private static final String selectAllProjectStartDateNameAmountDevelopers = "select start_date, name , count(developer_id) as developers_amount from projects p\n" +
+    private static final String selectAllProjectStartDateNameAmountDevelopers = "select id_project, start_date, end_date, name , count(developer_id) as developers_amount from projects p\n" +
             "join developers_projects dp on dp.project_id = p.id_project\n" +
-            "group by name, start_date";
+            "group by name, start_date, id_project, end_date";
 
     public List<Project> findAllProjects(){
         EntityManager entityManager = getEntityManager();
