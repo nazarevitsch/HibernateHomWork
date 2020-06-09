@@ -13,6 +13,18 @@ public class ProjectService {
     }
 
     public List<Project> findAllProjects(){
-        return projectDAO.findAllProjects();
+        return projectDAO.selectAllEntity();
+    }
+
+    public void createProject(Project project){
+        projectDAO.save(project);
+    }
+
+    public void deleteProject(Long id){
+        projectDAO.delete(id);
+    }
+
+    public void updateProject(Project project, Long id){
+        projectDAO.update(project, id);
     }
 }

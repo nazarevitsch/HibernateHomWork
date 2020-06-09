@@ -29,7 +29,7 @@ public class DeveloperService {
     }
 
     public List<Developer> selectAllDevelopers(){
-        return developerDAO.selectAllDevelopers();
+        return developerDAO.selectAllEntity();
     }
 
     public List<Developer> findAllDevelopersByProgramingLanguage(ProgramingLanguage programingLanguage) {

@@ -41,6 +41,7 @@ create table customers(
 
 drop table if exists developers_projects;
 create table developers_projects(
+    id SERIAL primary key,
     developer_ID int,
     project_ID int
 );

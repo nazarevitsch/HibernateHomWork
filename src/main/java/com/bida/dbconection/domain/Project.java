@@ -1,5 +1,6 @@
 package com.bida.dbconection.domain;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,16 +21,15 @@ public class Project {
     private Date endDate;
     @Column(name = "name")
     private String name;
-    @Column(name = "developers_amount")
+    @Formula("(SELECT COUNT(dp.developer_id) FROM developers_projects dp WHERE id_project = dp.project_id)")
     private int developersAmount;
 
     public Project(){}
 
-    public Project(Date startDate, Date endDate, String name, int developersAmount){
+    public Project(Date startDate, Date endDate, String name){
         this.startDate = startDate;
         this.endDate = endDate;
         this.name = name;
-        this.developersAmount = developersAmount;
     }
 
     public Date getStartDate() {
