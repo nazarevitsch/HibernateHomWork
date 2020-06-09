@@ -24,7 +24,7 @@ public class GenericDAO<T, K> {
             entityManager = entityManagerFactory.createEntityManager();
         } catch (Exception e){
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("Wrong PASSWORD, USERNAME, or URL");
+            logger.error("Wrong PASSWORD, USERNAME, or URL in GenericDAO");
             System.exit(1);
         }
     }
@@ -37,7 +37,7 @@ public class GenericDAO<T, K> {
             entityManager.close();
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all developers Developer!");
+            logger.error("ERROR with find all GenericDAO!");
         }
         return entities;
     }
@@ -51,7 +51,7 @@ public class GenericDAO<T, K> {
             entityManager.close();
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("ERROR with save Developer!");
+            logger.error("ERROR with save GenericDAO!");
         }
     }
 
@@ -66,7 +66,7 @@ public class GenericDAO<T, K> {
             entityManager.close();
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("ERROR with update Developer!");
+            logger.error("ERROR with update GenericDAO!");
         }
     }
 
@@ -80,7 +80,7 @@ public class GenericDAO<T, K> {
             entityManager.close();
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with delete Developer!");
+            logger.error("ERROR with delete GenericDAO!");
         }
     }
 
