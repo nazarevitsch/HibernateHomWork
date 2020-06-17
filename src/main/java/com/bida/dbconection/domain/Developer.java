@@ -97,7 +97,7 @@ public class Developer {
     }
 
     public long getItCompanyId() {
-        return itCompanyId;
+        return this.itCompanyId;
     }
 
     public void setItCompanyId(long itCompanyId) {

@@ -16,6 +16,10 @@ public class DeveloperService {
         this.developerDAO = developerDAO;
     }
 
+    public Developer findDeveloperById(long id){
+        return developerDAO.getEntity(id);
+    }
+
     public void createDeveloper(Developer developer){
         developerDAO.save(developer);
     }

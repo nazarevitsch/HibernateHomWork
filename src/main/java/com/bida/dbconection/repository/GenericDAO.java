@@ -1,6 +1,5 @@
 package com.bida.dbconection.repository;
 
-import com.bida.dbconection.domain.Developer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +28,30 @@ public class GenericDAO<T, K> {
         }
     }
 
+    public T getEntity(Long id){
+        T entity = null;
+        try {
+            EntityManager entityManager = getEntityManager();
+            entity = (T) entityManager.find( persistentClass, id);
+            entityManager.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
+            logger.error("ERROR with find all GenericDAO!");
+        }
+        return entity;
+    }
+
     public List<T> selectAllEntity(){
         List<T> entities = null;
         try {
+            System.out.println(1);
             EntityManager entityManager = getEntityManager();
+            System.out.println(2);
+            System.out.println(persistentClass.getSimpleName());
             entities = (List<T>) entityManager.createQuery("select t from " + persistentClass.getSimpleName() + " t").getResultList();
+            System.out.println(3);
             entityManager.close();
+            System.out.println(4);
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
             logger.error("ERROR with find all GenericDAO!");

@@ -22,7 +22,9 @@ public class Main {
 //        System.out.println(serviceFactory.getDeveloperService().findDevelopersSalaryByIdProject(1));
 //
 //        System.out.println(serviceFactory.getProjectService().findAllProjects());
+//        System.out.println(serviceFactory.getDevelopersProjectsService().findAll());
+//        serviceFactory.getDevelopersProjectsService().createDeveloperProject(new DeveloperProject(1, 4));
         System.out.println(serviceFactory.getDevelopersProjectsService().findAll());
-        serviceFactory.getDevelopersProjectsService().createDeveloperProject(new DevelopersProjects(1, 4));
+        System.out.println(serviceFactory.getDevelopersProjectsService().findDeveloperProjectById(1));
     }
 }

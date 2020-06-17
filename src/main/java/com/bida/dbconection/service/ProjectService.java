@@ -16,6 +16,8 @@ public class ProjectService {
         return projectDAO.selectAllEntity();
     }
 
+    public Project findProjectById(Long id){return projectDAO.getEntity(id);}
+
     public void createProject(Project project){
         projectDAO.save(project);
     }

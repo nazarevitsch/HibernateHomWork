@@ -40,6 +40,14 @@ public class Project {
         this.startDate = startDate;
     }
 
+    public void setEndDate(Date endDate){
+        this.endDate = endDate;
+    }
+
+    public Date getEndDate(){
+        return endDate;
+    }
+
     public String getName() {
         return name;
     }
