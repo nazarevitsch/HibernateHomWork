@@ -23,7 +23,7 @@ public class GenericDAO<T, K> {
             entityManager = entityManagerFactory.createEntityManager();
         } catch (Exception e){
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("Wrong PASSWORD, USERNAME, or URL in GenericDAO");
+            logger.error("Wrong PASSWORD, USERNAME, or URL in GenericDAO CAUSE:{}", e.getMessage());
             System.exit(1);
         }
     }
@@ -33,10 +33,12 @@ public class GenericDAO<T, K> {
         try {
             EntityManager entityManager = getEntityManager();
             entity = (T) entityManager.find( persistentClass, id);
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all GenericDAO!");
+            logger.error("ERROR with find all GenericDAO! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return entity;
     }
@@ -44,17 +46,15 @@ public class GenericDAO<T, K> {
     public List<T> selectAllEntity(){
         List<T> entities = null;
         try {
-            System.out.println(1);
             EntityManager entityManager = getEntityManager();
-            System.out.println(2);
             System.out.println(persistentClass.getSimpleName());
             entities = (List<T>) entityManager.createQuery("select t from " + persistentClass.getSimpleName() + " t").getResultList();
-            System.out.println(3);
-            entityManager.close();
-            System.out.println(4);
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all GenericDAO!");
+            logger.error("ERROR with find all GenericDAO! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return entities;
     }
@@ -65,10 +65,12 @@ public class GenericDAO<T, K> {
             entityManager.getTransaction().begin();
             entityManager.persist(entity);
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("ERROR with save GenericDAO!");
+            logger.error("ERROR with save GenericDAO! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
     }
 
@@ -80,10 +82,12 @@ public class GenericDAO<T, K> {
             entityManager.merge(entity);
             entityManager.persist(entityFromDB);
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-            logger.error("ERROR with update GenericDAO!");
+            logger.error("ERROR with update GenericDAO! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
     }
 
@@ -94,10 +98,12 @@ public class GenericDAO<T, K> {
             T developerFromDB = (T) entityManager.find(persistentClass, id);
             entityManager.remove(developerFromDB);
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with delete GenericDAO!");
+            logger.error("ERROR with delete GenericDAO! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
     }
 

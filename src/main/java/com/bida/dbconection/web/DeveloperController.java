@@ -48,6 +48,7 @@ public class DeveloperController extends HttpServlet {
         developer.setAge(Integer.parseInt(req.getParameter("age")));
         developer.setItCompanyId(Long.parseLong(req.getParameter("itCompanyId")));
         developer.setSalary(BigDecimal.valueOf(Long.valueOf(req.getParameter("salary"))));
+        System.out.println(developer);
         serviceFactory.getDeveloperService().createDeveloper(developer);
         resp.sendRedirect("/servlet/developers");
     }

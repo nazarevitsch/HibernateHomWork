@@ -1,6 +1,7 @@
 package com.bida.dbconection.service;
 
 import com.bida.dbconection.domain.Developer;
+import com.bida.dbconection.repository.CompanyDAO;
 import com.bida.dbconection.repository.DeveloperDAO;
 import com.bida.dbconection.repository.DevelopersProjectsDAO;
 import com.bida.dbconection.repository.ProjectDAO;
@@ -16,4 +17,6 @@ public class ServiceFactory {
     }
 
     public DevelopersProjectsService getDevelopersProjectsService(){ return new DevelopersProjectsService(new DevelopersProjectsDAO());}
+
+    public CompanyService getCompanyService(){return new CompanyService(new CompanyDAO());}
 }

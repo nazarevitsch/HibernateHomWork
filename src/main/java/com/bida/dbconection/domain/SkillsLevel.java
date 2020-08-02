@@ -5,8 +5,9 @@ public enum SkillsLevel{
     MIDDLE("Middle"),
     SENIOR("Senior");
 
-    private String name;
-    private SkillsLevel(String name){
+    private final String name;
+
+    SkillsLevel(String name){
         this.name = name;
     }
 

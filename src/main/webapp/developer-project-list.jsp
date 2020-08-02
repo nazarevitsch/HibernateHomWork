@@ -13,11 +13,21 @@
     <title>List of developers-projects</title>
 </head>
 <body>
+<ul>
+    <li><a href="index.jsp">Main Page</a></li>
+    <li><a href="/servlet/developers">List Of Developers</a></li>
+    <li><a href="/servlet/developer_add">Add Developers</a></li>
+    <li><a href="/servlet/projects">List Of Projects</a></li>
+    <li><a href="/servlet/project-add.jsp">Add Projects</a></li>
+    <li><a href="/servlet/developersProjects">List of Developers Projects</a></li>
+    <li><a href="/servlet/developer_project_add">Add Developers Projects</a></li>
+</ul>
 <table border="1px">
     <tr>
         <td>Id</td>
         <td>Id of developer</td>
         <td>Id of project</td>
+        <td>DELETE</td>
     </tr>
     <c:forEach var="developerProject" items="${developersProjects}">
         <tr>

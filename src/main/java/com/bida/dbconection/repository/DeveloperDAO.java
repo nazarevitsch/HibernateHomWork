@@ -13,6 +13,7 @@ import java.util.List;
 
 public class DeveloperDAO extends GenericDAO<Developer, Long> {
 
+    private EntityManager entityManager;
 
     private static final String selectAllDevelopersByLanguageSkills = "" +
             "select distinct id_developer, name, age, sex, it_company_id, salary from developers\n" +
@@ -36,7 +37,6 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> {
             "join developers on developers.id_developer = developers_projects.developer_id\n" +
             "group by project_id) as foo where project_id = :id";
 
-    private static final String selectAllDeveloper = "select * from developers";
 
     public List<Developer> findAllDevelopersByProgramingLanguage(ProgramingLanguage programingLanguage) {
         List<Developer> developers = null;
@@ -47,8 +47,11 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> {
                     .getResultList();
             entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all developers by programing language Developer!");
+            logger.error("ERROR with find all developers by programing language Developer! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return developers;
     }
@@ -60,10 +63,12 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> {
             developers = (List<Developer>) entityManager.createNativeQuery(selectAllDevelopersByLevelSkills, Developer.class)
                     .setParameter("skillsLevel", skillsLevel.getName())
                     .getResultList();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all developers by skills level Developer!");
+            logger.error("ERROR with find all developers by skills level Developer! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return developers;
     }
@@ -71,14 +76,16 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> {
     public List<Developer> findAllDevelopersByProjectId(long projectId) {
         List<Developer> developers = null;
         try {
-            EntityManager entityManager = getEntityManager();
+            entityManager = getEntityManager();
             developers = (List<Developer>) entityManager.createNativeQuery(selectDevelopersByProject, Developer.class)
                     .setParameter("id", projectId)
                     .getResultList();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all developers by project id Developer!");
+            logger.error("ERROR with find all developers by project id Developer! CAUSE:{}", e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return developers;
     }
@@ -90,10 +97,12 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> {
             salarySum = (BigInteger) entityManager.createNativeQuery(selectDevelopersSalaryByIdProject)
                     .setParameter("id", projectId)
                     .getSingleResult();
-            entityManager.close();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             Logger logger = LoggerFactory.getLogger(DeveloperDAO.class);
-            logger.error("ERROR with find all salary of developers by project id Developer!");
+            logger.error("ERROR with find all salary of developers by project id Developer! CAUSE:{}", e.getMessage());
+        }  finally {
+            entityManager.close();
         }
         return new BigDecimal(salarySum);
     }
