@@ -30,6 +30,7 @@
             <td>Start Date</td>
             <td>Amount of Developers</td>
             <td>DELETE</td>
+            <td>EDIT</td>
         </tr>
         <c:forEach var="project" items="${projects}">
             <tr>
@@ -39,6 +40,7 @@
                 <td><c:out value="${project.endDate}"/></td>
                 <td><c:out value="${project.developersAmount}"/></td>
                 <td id="<c:out value='${project.id}'/>"><button type="button" onclick="handleDelete(this)">Remove</button></td>
+                <td><button type="button" onclick="window.location.href='/servlet/project_edit?id='+ + <c:out value='${project.id}'/>">Edit</button></td>
             </tr>
         </c:forEach>
     </table>
